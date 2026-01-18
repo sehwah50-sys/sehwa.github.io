@@ -1,195 +1,206 @@
-<a class="card" href="/dashboard.html">
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project Hub</title>
-
-    <!-- ================================
-         ✨ 카드형 링크 허브 (깔끔 버전)
-         - 네모 카드 + 이미지 + 이름
-         - 마우스 오버 시 애니메이션
-         - 추가/삭제 쉬움
-    ================================= -->
-
     <style>
-        body {
+        * {
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
             font-family: "Segoe UI", Arial, sans-serif;
             background: #0b1220;
             color: #e5e7eb;
+            min-height: 100vh;
         }
 
         header {
-            padding: 40px 20px;
+            padding: 50px 20px;
             text-align: center;
         }
 
         header h1 {
-            margin: 0;
-            font-size: 32px;
+            font-size: 42px;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         header p {
-            margin-top: 10px;
             color: #9ca3af;
+            font-size: 16px;
         }
 
         .container {
-            max-width: 1100px;
-            margin: auto;
+            max-width: 1200px;
+            margin: 0 auto;
             padding: 20px;
         }
 
-        h2 {
-            margin: 40px 0 20px;
+        .section-title {
+            font-size: 24px;
             color: #38bdf8;
+            margin: 40px 0 20px;
+            padding-left: 10px;
+            border-left: 4px solid #38bdf8;
         }
 
-        /* ===== 카드 그리드 ===== */
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 24px;
+            margin-bottom: 60px;
         }
 
-        /* ===== 카드 ===== */
         .card {
             background: #111827;
             border-radius: 16px;
             overflow: hidden;
             text-decoration: none;
             color: inherit;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+            border: 1px solid #1f2937;
         }
 
-        /* 마우스 올렸을 때 */
         .card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 20px 40px rgba(56,189,248,0.25);
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(56, 189, 248, 0.3);
+            border-color: #38bdf8;
         }
 
-        .thumb {
+        .card-image {
             width: 100%;
-            height: 130px;
+            height: 140px;
+            background: linear-gradient(135deg, #1f2937, #374151);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            border-bottom: 1px solid #1f2937;
             background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .card-image::before {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background-size: contain;
+            background-repeat: no-repeat;
             background-position: center;
         }
 
         .card-body {
-            padding: 15px;
+            padding: 20px;
         }
 
         .card-title {
-            font-size: 16px;
-            margin: 0;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #f9fafb;
         }
 
         .card-desc {
-            font-size: 13px;
+            font-size: 14px;
             color: #9ca3af;
-            margin-top: 6px;
+            line-height: 1.5;
         }
 
-        /* ===== 푸터 ===== */
         footer {
             text-align: center;
-            padding: 40px 20px;
+            padding: 50px 20px;
             color: #6b7280;
-            font-size: 13px;
+            font-size: 14px;
+            border-top: 1px solid #1f2937;
+            margin-top: 60px;
         }
-            /* 링크 대표 이미지 자동 불러오기 */
-        .thumb {
-            background-size: cover;
-            background-position: center;
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 16px;
+            }
+
+            header h1 {
+                font-size: 32px;
+            }
         }
-</style>
-<script>
-    // ================================
-    // 🔥 링크 대표 이미지 자동 설정
-    // 원리:
-    // - 링크 도메인 → favicon 자동 로드
-    // - 귀찮게 이미지 직접 안 넣어도 됨
-    // ================================
-
-    document.addEventListener("DOMContentLoaded", () => {
-        document.querySelectorAll('.card').forEach(card => {
-            const url = card.getAttribute('href');
-            const domain = new URL(url).origin;
-            const thumb = card.querySelector('.thumb');
-
-            // Google favicon 서비스 사용 (가장 안정적)
-            thumb.style.backgroundImage = `url(https://www.google.com/s2/favicons?sz=256&domain_url=${domain})`;
-        });
-    });
-</script>
+    </style>
 </head>
 <body>
 
 <header>
     <h1>🧠 Project Hub</h1>
-    <p>내가 만든 것들과 자주 쓰는 링크</p>
+    <p>내가 만든 프로젝트와 자주 쓰는 링크 모음</p>
 </header>
 
 <div class="container">
 
-    <!-- ===================== -->
-    <!-- 📦 내 프로젝트 영역 -->
-    <!-- ===================== -->
-    <h2>📦 My Projects</h2>
-
-    <!-- 🔧 카드 추가 방법
-         1. 아래 <a class="card"> 블록 하나 복사
-         2. href → 이동할 주소
-         3. background-image → 이미지 URL
-         4. 제목/설명 수정
-    -->
-
+    <!-- 내 프로젝트 섹션 -->
+    <h2 class="section-title">📦 My Projects</h2>
     <div class="grid">
 
-        <a class="card" href="https://youtube.com/" target="_blank">
-            <div class="thumb" data-url="LINK_URL"></div>
+        <a class="card" href="https://sehwah50-sys.github.io/-/" target="_blank">
+            <div class="card-image" data-url="https://sehwah50-sys.github.io/-/"></div>
             <div class="card-body">
-                <h3 class="card-title">룰렛</h3>
-                <p class="card-desc">도박 중독 주의 아이디어by.hongsehwa</p>
+                <h3 class="card-title">가짜 돈 슬롯게임</h3>
+                <p class="card-desc">가짜 돈으로 슬롯하기 파산주의</p>
             </div>
         </a>
 
-        <a class="card" href="https://YOUR_ID.github.io/project2/" target="_blank">
-            <div class="thumb" data-url="LINK_URL"></div>
+        <a class="card" href="https://sehwah50-sys.github.io/gkwlgns/" target="_blank">
+            <div class="card-image" data-url="https://sehwah50-sys.github.io/gkwlgns/"></div>
             <div class="card-body">
-                <h3 class="card-title">프로젝트 2</h3>
-                <p class="card-desc">이 프로젝트는 뭐함</p>
+                <h3 class="card-title">하지훈</h3>
+                <p class="card-desc">아이디어 by.Kim Eunjin</p>
             </div>
         </a>
 
-        <!-- ❌ 안 쓰면 이 카드 블록 통째로 삭제 -->
+        <a class="card" href="https://sehwah50-sys.github.io/rladmswlsahsldehd/" target="_blank">
+            <div class="card-image" data-url="https://sehwah50-sys.github.io/rladmswlsahsldehd/"></div>
+            <div class="card-body">
+                <h3 class="card-title">김은진의 모닝똥</h3>
+                <p class="card-desc">아이디어 by.Kim Eunjin</p>
+            </div>
+        </a>
 
     </div>
 
-
-    <!-- ===================== -->
-    <!-- 🔗 유용한 링크 영역 -->
-    <!-- ===================== -->
-    <h2>🔗 Useful Links</h2>
-
+    <!-- 유용한 링크 섹션 -->
+    <h2 class="section-title">🔗 Useful Links</h2>
     <div class="grid">
 
         <a class="card" href="https://github.com" target="_blank">
-            <div class="thumb" data-url="LINK_URL"></div>
+            <div class="card-image" data-url="https://github.com"></div>
             <div class="card-body">
                 <h3 class="card-title">GitHub</h3>
-                <p class="card-desc">코드 저장소</p>
+                <p class="card-desc">코드 저장소 및 버전 관리</p>
             </div>
         </a>
 
         <a class="card" href="https://chat.openai.com" target="_blank">
-            <div class="thumb" data-url="LINK_URL"></div>
+            <div class="card-image" data-url="https://chat.openai.com"></div>
             <div class="card-body">
                 <h3 class="card-title">ChatGPT</h3>
-                <p class="card-desc">아이디어 / 코드 / 분석</p>
+                <p class="card-desc">AI 어시스턴트로 코딩 도움</p>
+            </div>
+        </a>
+
+        <a class="card" href="https://stackoverflow.com" target="_blank">
+            <div class="card-image" data-url="https://stackoverflow.com"></div>
+            <div class="card-body">
+                <h3 class="card-title">Stack Overflow</h3>
+                <p class="card-desc">개발자 Q&A 커뮤니티</p>
             </div>
         </a>
 
@@ -198,9 +209,23 @@
 </div>
 
 <footer>
-    필요하면 카드 계속 추가해서 쓰면 됨
+    <p>© 2025 Project Hub | 카드를 추가하거나 수정해서 사용하세요</p>
 </footer>
+
+<script>
+    // 사이트 대표 이미지(파비콘) 자동 로드
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.card-image[data-url]').forEach(img => {
+            const url = img.getAttribute('data-url');
+            if (url) {
+                // Google 파비콘 서비스 사용 (고해상도)
+                img.style.backgroundImage = `url(https://www.google.com/s2/favicons?sz=128&domain_url=${url})`;
+                img.style.backgroundSize = '64px 64px';
+                img.style.backgroundRepeat = 'no-repeat';
+            }
+        });
+    });
+</script>
 
 </body>
 </html>
-
