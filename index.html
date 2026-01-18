@@ -148,9 +148,9 @@
         </div>
 
         <div class="links">
-            <a href="#">비밀번호 찾기</a>
+            <a href="#" id="forgotPassword">비밀번호 찾기</a>
             <span style="color: #ccc;">|</span>
-            <a href="#">회원가입</a>
+            <a href="#" id="signupLink">회원가입</a>
         </div>
     </div>
 
@@ -171,7 +171,21 @@
         // 계정 추가 방법: 'ID': '비밀번호', 형식으로 추가
         // ==========================================
 
+        // 페이지 로드 시 로그인 상태 확인
+        window.addEventListener('load', () => {
+            const isLoggedIn = sessionStorage.getItem('isLoggedIn');
+            if (isLoggedIn === 'true') {
+                window.location.href = 'main.html';
+            }
+        });
+
         // 엔터키로 로그인
+        usernameInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                login();
+            }
+        });
+
         passwordInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
                 login();
@@ -179,6 +193,18 @@
         });
 
         loginBtn.addEventListener('click', login);
+
+        // 회원가입 클릭
+        document.getElementById('signupLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            alert('Error\n관리자에게 문의하세요');
+        });
+
+        // 비밀번호 찾기 클릭
+        document.getElementById('forgotPassword').addEventListener('click', (e) => {
+            e.preventDefault();
+            alert('Error\n관리자에게 문의하세요');
+        });
 
         function login() {
             const username = usernameInput.value.trim();
@@ -194,9 +220,8 @@
             if (accounts[username] && accounts[username] === password) {
                 // 로그인 성공
                 errorMessage.classList.remove('show');
-                alert('로그인 성공! 🎉');
-                
-                // 메인 페이지로 이동
+                sessionStorage.setItem('isLoggedIn', 'true');
+                sessionStorage.setItem('username', username);
                 window.location.href = 'main.html';
             } else {
                 // 로그인 실패
