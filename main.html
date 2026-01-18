@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Main</title>
+<style>
+body {
+margin: 0;
+background: #0b1220;
+color: white;
+font-family: Arial, sans-serif;
+padding: 40px;
+}
+
+
+button {
+padding: 10px 16px;
+border: none;
+border-radius: 8px;
+background: #ef4444;
+color: white;
+cursor: pointer;
+}
+</style>
+</head>
+<body>
+
+
+<h1>🏠 Main Page</h1>
+<p>로그인 성공</p>
+
+
+<button onclick="logout()">Logout</button>
+
+
+<script>
+// 로그인 안 했으면 index로 돌려보냄
+if (localStorage.getItem('login') !== 'ok') {
+location.href = 'index.html';
+}
+
+
+function logout() {
+localStorage.removeItem('login');
+location.href = 'index.html';
+}
+</script>
+
+
+</body>
+</html>
