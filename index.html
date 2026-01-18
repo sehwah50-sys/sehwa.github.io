@@ -1,11 +1,219 @@
-<input id="id" placeholder="ID" />
-<input id="pw" type="password" placeholder="Password" />
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-<button onclick="login()">Login</button>
+        .login-container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 400px;
+        }
 
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
 
-<div class="error" id="error">아이디 또는 비밀번호가 틀렸습니다</div>
+        .login-header h1 {
+            color: #667eea;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
 
+        .login-header p {
+            color: #666;
+            font-size: 14px;
+        }
 
-<div class="footer">GitHub Pages · Frontend Only</div>
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            color: #333;
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 10px;
+            text-align: center;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .links {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .links a {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 14px;
+            margin: 0 10px;
+        }
+
+        .links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <h1>🔐 로그인</h1>
+            <p>계정에 로그인하세요</p>
+        </div>
+
+        <div class="input-group">
+            <label for="username">아이디</label>
+            <input type="text" id="username" placeholder="아이디를 입력하세요">
+        </div>
+
+        <div class="input-group">
+            <label for="password">비밀번호</label>
+            <input type="password" id="password" placeholder="비밀번호를 입력하세요">
+        </div>
+
+        <button class="login-btn" id="loginBtn">로그인</button>
+
+        <div class="error-message" id="errorMessage">
+            ⚠️ 아이디 또는 비밀번호가 올바르지 않습니다.
+        </div>
+
+        <div class="links">
+            <a href="#">비밀번호 찾기</a>
+            <span style="color: #ccc;">|</span>
+            <a href="#">회원가입</a>
+        </div>
+    </div>
+
+    <script>
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const loginBtn = document.getElementById('loginBtn');
+        const errorMessage = document.getElementById('errorMessage');
+
+        // ==========================================
+        // 여기를 수정하세요! 계정 정보
+        // ==========================================
+        const accounts = {
+            'admin': '1234',      // 아이디: admin, 비밀번호: 1234
+            'user': 'password',   // 아이디: user, 비밀번호: password
+            'test': 'test123'     // 아이디: test, 비밀번호: test123
+        };
+        // 계정 추가 방법: 'ID': '비밀번호', 형식으로 추가
+        // ==========================================
+
+        // 엔터키로 로그인
+        passwordInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                login();
+            }
+        });
+
+        loginBtn.addEventListener('click', login);
+
+        function login() {
+            const username = usernameInput.value.trim();
+            const password = passwordInput.value;
+
+            // 빈 칸 체크
+            if (!username || !password) {
+                showError('아이디와 비밀번호를 모두 입력하세요.');
+                return;
+            }
+
+            // 계정 확인
+            if (accounts[username] && accounts[username] === password) {
+                // 로그인 성공
+                errorMessage.classList.remove('show');
+                alert('로그인 성공! 🎉');
+                
+                // 메인 페이지로 이동
+                window.location.href = 'main.html';
+            } else {
+                // 로그인 실패
+                showError('아이디 또는 비밀번호가 올바르지 않습니다.');
+                passwordInput.value = '';
+                passwordInput.focus();
+            }
+        }
+
+        function showError(message) {
+            errorMessage.textContent = '⚠️ ' + message;
+            errorMessage.classList.add('show');
+            
+            setTimeout(() => {
+                errorMessage.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
